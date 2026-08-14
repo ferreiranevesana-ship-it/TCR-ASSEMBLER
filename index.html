@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="TCR_ASSEMBLER — monte o PC ideal para o seu orçamento com recomendações inteligentes de peças compatíveis." />
+    <title>TCR_ASSEMBLER · Monte seu PC</title>
+
+    <!-- Google Fonts (tipografia externa segura) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+    <!-- ======================= HEADER ======================= -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <img src="assets/logo.svg" alt="Logotipo TCR_ASSEMBLER" class="logo-icon" width="36" height="36" />
+                <h1>TCR_ASSEMBLER</h1>
+            </div>
+
+            <nav aria-label="Navegação principal">
+                <ul>
+                    <li><a href="#inicio">Início</a></li>
+                    <li><a href="#montar">Montar PC</a></li>
+                    <li><a href="#demo">IA Assistente</a></li>
+                    <li><a href="#cadastro">Cadastro</a></li>
+                </ul>
+            </nav>
+
+            <div class="account-area">
+                <button class="btn-login" id="btnGoAuth">Entrar</button>
+                <div class="account-logged hidden" id="accountLogged">
+                    <span id="accountGreeting"></span>
+                    <button class="btn-login" id="btnGoDashboard">Meus PCs</button>
+                    <button class="btn-login" id="btnLogout">Sair</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+
+        <!-- ======================= HERO / LANDING ======================= -->
+        <section id="inicio" class="hero">
+            <div class="container hero-content">
+                <div class="hero-text">
+                    <h2>Monte seu PC dos sonhos em poucos clicks.</h2>
+                    <p>Informe seu orçamento e a finalidade do computador — nossa IA de recomendação seleciona peças compatíveis e equilibradas automaticamente para você.</p>
+                    <button class="btn-primary" id="btnStart">MONTE SEU PC AQUI</button>
+                </div>
+                <div class="hero-image">
+                    <img src="assets/hero-pc.svg" alt="Ilustração estilizada de um computador montado" width="180" height="180" />
+                </div>
+            </div>
+        </section>
+
+        <!-- ======================= CADASTRO / LOGIN (LGPD) ======================= -->
+        <section id="cadastro" class="config-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 id="authSectionTitle">Crie sua conta</h2>
+                    <p id="authSectionSubtitle">Salve os PCs que você montar e acesse de qualquer lugar.</p>
+                </div>
+
+                <form class="config-form login-modal" id="authForm" novalidate>
+                    <div class="form-row" id="nameRow">
+                        <div class="form-group">
+                            <label for="authName">Nome completo</label>
+                            <input type="text" id="authName" name="name" autocomplete="name" placeholder="Seu nome" required />
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="authEmail">Email</label>
+                            <input type="email" id="authEmail" name="email" autocomplete="email" placeholder="voce@email.com" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="authPassword">Senha</label>
+                            <input type="password" id="authPassword" name="password" autocomplete="new-password" placeholder="Mínimo 6 caracteres" minlength="6" required />
+                        </div>
+                    </div>
+
+                    <div class="lgpd-consent" id="lgpdRow">
+                        <input type="checkbox" id="lgpdConsent" name="lgpdConsent" />
+                        <label for="lgpdConsent">
+                            Autorizo o uso dos meus dados (nome, email e configurações de PC salvas) exclusivamente
+                            para o funcionamento deste MVP, conforme a
+                            <a href="#footer-lgpd">Lei Geral de Proteção de Dados (LGPD)</a>. Você pode pedir a exclusão
+                            da sua conta e dos seus dados a qualquer momento.
+                        </label>
+                    </div>
+
+                    <p class="error-msg" id="authError" role="alert"></p>
+
+                    <button type="submit" class="btn-primary" id="authSubmit">Criar conta</button>
+
+                    <p class="auth-switch">
+                        <span id="authSwitchText">Já tem uma conta?</span>
+                        <a href="#cadastro" id="authSwitchLink">Entrar</a>
+                    </p>
+                </form>
+            </div>
+        </section>
+
+        <!-- ======================= DASHBOARD (PCs salvos) ======================= -->
+        <section id="dashboard" class="config-section hidden">
+            <div class="container">
+                <div class="section-header">
+                    <h2>📊 Meus PCs salvos</h2>
+                    <p>Painel com as configurações que você já montou e guardou na sua conta.</p>
+                </div>
+                <div class="demo-grid" id="myBuildsGrid">
+                    <p id="myBuildsEmpty">Você ainda não salvou nenhum PC.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======================= MONTAGEM DO PC ======================= -->
+        <section id="montar" class="config-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Seu Setup, Seu preço.</h2>
+                    <p>Gere seu setup aqui sem ultrapassar seu orçamento.</p>
+                </div>
+
+                <div class="config-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="budgetInput">Insira seu orçamento (R$)</label>
+                            <input type="number" id="budgetInput" placeholder="Ex: 5000" min="1" step="1" />
+                        </div>
+                        <div class="form-group">
+                            <label for="purposeSelect">Para que você vai usar o PC?</label>
+                            <select id="purposeSelect">
+                                <option value="">Selecione...</option>
+                                <option value="estudo">Estudo / Escritório</option>
+                                <option value="programacao">Programação / Desenvolvimento</option>
+                                <option value="jogos">Jogos (Gaming)</option>
+                                <option value="design">Design / Edição de Vídeo</option>
+                                <option value="geral">Uso Geral / Multitarefa</option>
+                            </select>
+                        </div>
+                    </div>
+                    <p class="error-msg" id="budgetError" role="alert">⚠️ Por favor, insira um orçamento válido e selecione o propósito.</p>
+                </div>
+
+                <!-- Filtros -->
+                <div class="filters-grid" id="filtersContainer"></div>
+
+                <!-- Gerar -->
+                <div class="generate-area">
+                    <button class="btn-generate" id="btnGenerate">
+                        <span class="btn-text">GERAR PC</span>
+                        <span class="spinner"></span>
+                    </button>
+                </div>
+
+                <!-- Resultado -->
+                <article id="result" class="result-area">
+                    <h3>✅ Setup Gerado</h3>
+                    <div id="resultContent"></div>
+                    <div class="save-build-row">
+                        <button class="btn-login" id="btnSaveBuild">💾 Salvar este PC na minha conta</button>
+                        <span id="saveBuildMsg" role="status"></span>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- ======================= DEMO DA IA ======================= -->
+        <section id="demo" class="demo-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Como a nossa IA de recomendação decide</h2>
+                    <p>Exemplos estáticos de como o modelo de sugestão de peças raciocina a cada geração de PC.</p>
+                </div>
+
+                <div class="demo-grid">
+                    <article class="demo-card">
+                        <div class="demo-icon" aria-hidden="true">🧠</div>
+                        <h3>Recomendação por Propósito</h3>
+                        <p>Exemplo: para "Programação", a IA prioriza CPUs com mais núcleos e RAM generosa, evitando GPUs caras desnecessárias.</p>
+                    </article>
+
+                    <article class="demo-card">
+                        <div class="demo-icon" aria-hidden="true">🔗</div>
+                        <h3>Checagem de Compatibilidade</h3>
+                        <p>Exemplo: Ryzen 5 5600X (AM4) + placa-mãe Z790 (LGA1700) → <strong>incompatível</strong>. A IA bloqueia a combinação automaticamente.</p>
+                    </article>
+
+                    <article class="demo-card">
+                        <div class="demo-icon" aria-hidden="true">⚖️</div>
+                        <h3>Balanceamento de Orçamento</h3>
+                        <p>Exemplo: orçamento de R$ 4.000 para jogos → GPU RTX 3060 (R$ 2.000) + CPU Ryzen 5 5600X (R$ 1.100) + restante em RAM/fonte.</p>
+                    </article>
+
+                    <article class="demo-card">
+                        <div class="demo-icon" aria-hidden="true">📈</div>
+                        <h3>Estimativa de Performance</h3>
+                        <p>Exemplo: setup gerado para "Design" → previsão de desempenho classificada como "Alta" para edição de vídeo em 1080p/4K.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ======================= MODAL: ORÇAMENTO EXCEDIDO ======================= -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-box">
+            <h2>⚠️ Atenção</h2>
+            <p id="modalMessage">O PC precisa de uma peça que ultrapassa um pouco o orçamento. Deseja ultrapassar o orçamento, ou deseja ficar com uma peça mais barata para não passar dele?</p>
+            <div class="modal-buttons">
+                <button class="btn-yes" id="modalYes">Ultrapassar orçamento</button>
+                <button class="btn-no" id="modalNo">Não Ultrapassar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======================= FOOTER ======================= -->
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-info">
+                <p><strong>TCR_ASSEMBLER</strong></p>
+                <p>MVP acadêmico — Trabalho Trimestral Interdisciplinar de Inovação e Front-End.</p>
+            </div>
+
+            <div class="footer-lgpd" id="footer-lgpd">
+                <h4>Privacidade e LGPD</h4>
+                <p>Coletamos apenas nome, email, senha (criptografada) e os PCs que você optar por salvar. Nenhum dado é compartilhado com terceiros. Você pode solicitar a exclusão da sua conta a qualquer momento pelo email de contato.</p>
+                <a href="#cadastro">Gerenciar meus dados</a>
+            </div>
+
+            <div class="footer-social">
+                <a href="#inicio" aria-label="Voltar ao início">🏠 Início</a>
+                <a href="#demo" aria-label="Ver demonstração da IA">🧠 IA Assistente</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- database.js agora é usado apenas como fallback offline,
+         caso o back-end (API) esteja fora do ar -->
+    <script src="database.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
